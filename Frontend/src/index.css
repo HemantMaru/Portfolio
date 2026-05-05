@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0a0a0a;
+  --color-surface: #121212;
+  --color-surface-hover: #1a1a1a;
+  --color-accent: #ffffff;
+  --color-muted: #888888;
+  --font-sans: "Outfit", system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    width: 100%; /* Replacement for 100vw to fix iOS horizontal scroll bug */
+    height: 100%;
+  }
+
+  body {
+    @apply bg-primary text-white font-sans antialiased;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  h1,
+  h2,
+  h3,
+  .font-display {
+    @apply font-display tracking-tighter break-words; /* Word breaking for long cinematic titles */
+  }
+
+  ::selection {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300 whitespace-nowrap;
+    background: white;
+    color: black;
+  }
+
+  .btn-primary:hover {
+    @apply scale-[1.02] shadow-[0_0_30px_rgba(255,255,255,0.3)];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-8 py-3.5 rounded-full font-bold text-sm transition-all duration-300;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: white;
+    backdrop-filter: blur(10px);
+  }
+
+  .btn-secondary:hover {
+    @apply bg-white/10 border-white/20;
+  }
+
+  .input-field {
+    @apply w-full bg-surface border border-white/5 rounded-2xl px-5 py-4 text-white text-sm placeholder-white/20 focus:outline-none focus:border-white/20 transition-all duration-300;
+  }
+
+  .glass-card {
+    @apply bg-white/[0.02] border border-white/5 backdrop-blur-xl;
+  }
+
+  .glow-text {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+
+  .glow-box {
+    box-shadow: 0 0 50px -10px rgba(255, 255, 255, 0.05);
+  }
+
+  .section-padding {
+    @apply py-20 sm:py-40 px-6 sm:px-12 md:px-24;
+  }
+
+  .text-safe {
+    @apply break-words;
+  }
+}
+/* overflow-wrap-anywhere */
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #222;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Avoid flashing mobile horizontal scroll */
+* {
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
