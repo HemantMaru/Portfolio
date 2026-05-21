@@ -1,136 +1,113 @@
-import React, { useLayoutEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  SiMongodb,
-  SiExpress,
-  SiReact,
-  SiNodedotjs,
-  SiJavascript,
-  SiTailwindcss,
-  SiGreensock,
-  SiGit,
-  SiFirebase,
-  SiPostman,
-} from "react-icons/si";
+import React from "react";
 
-const skills = [
-  { name: "MongoDB", icon: SiMongodb, color: "#47A248", x: 10, y: 20 },
-  { name: "Express", icon: SiExpress, color: "#ffffff", x: 70, y: 15 },
-  { name: "React", icon: SiReact, color: "#61DAFB", x: 40, y: 10 },
-  { name: "Node.js", icon: SiNodedotjs, color: "#339933", x: 80, y: 50 },
-  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", x: 15, y: 60 },
-  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", x: 50, y: 80 },
-  { name: "GSAP", icon: SiGreensock, color: "#88CE02", x: 5, y: 45 },
-  { name: "Firebase", icon: SiFirebase, color: "#FFCA28", x: 85, y: 75 },
-  { name: "Git", icon: SiGit, color: "#F05032", x: 30, y: 40 },
-  { name: "Postman", icon: SiPostman, color: "#FF6C37", x: 65, y: 55 },
-];
+import { FaGithub, FaLinkedin, FaInstagram } from "react-icons/fa";
 
-const Skills = () => {
-  const containerRef = useRef(null);
-  const itemsRef = useRef([]);
+import { HiArrowUpRight } from "react-icons/hi2";
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -150]);
-
-  useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      itemsRef.current.forEach((el, i) => {
-        // Floating animation (controlled)
-        gsap.to(el, {
-          y: "+=15",
-          duration: 2 + (i % 3),
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut",
-        });
-
-        // Fade + scale reveal
-        gsap.from(el, {
-          scale: 0,
-          opacity: 0,
-          duration: 0.8,
-          delay: i * 0.05,
-          ease: "back.out(1.7)",
-        });
-      });
-    }, containerRef);
-
-    return () => ctx.revert();
-  }, []);
-
+const Footer = () => {
   return (
-    <section
-      ref={containerRef}
-      className="relative min-h-screen bg-black flex items-center justify-center overflow-hidden"
-    >
-      {/* Heading */}
-      <motion.div
-        style={{ y: textY }}
-        className="absolute z-20 text-center pointer-events-none"
-      >
-        <h2 className="text-7xl md:text-[10rem] font-black uppercase">
-          TECH <br />
-          <span className="text-white/20 italic">STACK</span>
-        </h2>
-      </motion.div>
+    <footer className="relative overflow-hidden bg-black border-t border-white/10">
+      {/* Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-cyan-500/10 blur-[120px] rounded-full pointer-events-none" />
 
-      {/* Skills */}
-      <div className="absolute inset-0 hidden md:block">
-        {skills.map((skill, i) => {
-          const Icon = skill.icon;
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-16 py-20">
+        {/* Top */}
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-12 border-b border-white/10 pb-14">
+          {/* Left */}
+          <div className="max-w-2xl">
+            <p className="uppercase tracking-[0.4em] text-cyan-400 text-sm mb-5">
+              Let’s Build Something
+            </p>
 
-          return (
-            <div
-              key={i}
-              ref={(el) => (itemsRef.current[i] = el)}
-              className="absolute group p-5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md cursor-pointer"
-              style={{
-                left: `${skill.x}%`,
-                top: `${skill.y}%`,
-              }}
-            >
-              <Icon
-                size={35}
-                style={{ color: skill.color }}
-                className="group-hover:scale-125 transition"
-              />
-
-              <p className="text-xs text-white/40 mt-2 text-center group-hover:text-white">
-                {skill.name}
-              </p>
-
-              {/* glow */}
-              <div
-                className="absolute inset-0 opacity-0 group-hover:opacity-20 blur-xl transition"
-                style={{ backgroundColor: skill.color }}
-              />
-            </div>
-          );
-        })}
-      </div>
-
-      {/* Mobile Grid */}
-      <div className="md:hidden grid grid-cols-3 gap-6 z-30 px-6">
-        {skills.map((skill, i) => (
-          <div key={i} className="flex flex-col items-center gap-2">
-            <skill.icon size={28} style={{ color: skill.color }} />
-            <span className="text-[9px] text-white/50 uppercase font-bold">
-              {skill.name}
-            </span>
+            <h2 className="text-5xl md:text-7xl font-black leading-none text-white">
+              HAVE AN
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 italic">
+                IDEA?
+              </span>
+            </h2>
           </div>
-        ))}
-      </div>
 
-      {/* Glow background */}
-      <div className="absolute w-[600px] h-[600px] bg-blue-500/10 blur-[150px] rounded-full" />
-    </section>
+          {/* Button */}
+          <button className="group px-8 py-4 rounded-2xl bg-cyan-500 text-black font-bold text-lg flex items-center gap-3 hover:scale-105 transition duration-300">
+            Start Project
+            <HiArrowUpRight
+              size={24}
+              className="group-hover:translate-x-1 group-hover:-translate-y-1 transition duration-300"
+            />
+          </button>
+        </div>
+
+        {/* Bottom */}
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-10">
+          {/* Logo */}
+          <div>
+            <h3 className="text-2xl font-black tracking-tight text-white">
+              Hemant<span className="text-cyan-400">.</span>
+            </h3>
+
+            <p className="text-white/40 mt-2 text-sm">
+              MERN Stack Developer • Building Modern Web Experiences
+            </p>
+          </div>
+
+          {/* Nav */}
+          <div className="flex items-center gap-8 text-white/60 text-sm font-medium">
+            <a href="#home" className="hover:text-white transition">
+              Home
+            </a>
+
+            <a href="#about" className="hover:text-white transition">
+              About
+            </a>
+
+            <a href="#projects" className="hover:text-white transition">
+              Projects
+            </a>
+
+            <a href="#contact" className="hover:text-white transition">
+              Contact
+            </a>
+          </div>
+
+          {/* Socials */}
+          <div className="flex items-center gap-4">
+            <a
+              href="https://github.com/HemantMaru"
+              target="_blank"
+              rel="noreferrer"
+              className="p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition"
+            >
+              <FaGithub size={20} />
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/hemant-maru-63012029a/"
+              target="_blank"
+              rel="noreferrer"
+              className="p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition"
+            >
+              <FaLinkedin size={20} />
+            </a>
+
+            <a
+              href="https://instagram.com/hemantkumawat213"
+              target="_blank"
+              rel="noreferrer"
+              className="p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition"
+            >
+              <FaInstagram size={20} />
+            </a>
+          </div>
+        </div>
+
+        {/* Copyright */}
+        <div className="mt-12 pt-8 border-t border-white/10 text-center text-white/30 text-sm">
+          © 2026 Hemant Maru. All rights reserved.
+        </div>
+      </div>
+    </footer>
   );
 };
 
-export default Skills;
+export default Footer;

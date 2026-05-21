@@ -15,41 +15,26 @@ const projects = [
       "Information fragmentation across platforms leads to lost context and reduced productivity.",
     solution:
       "Engineered a bespoke MERN architecture with robust JWT/cookie authentication for secure content retention.",
-    image: "/images/neurovault.png",
+    image: "/images/Neurovault.png",
     tech: ["MongoDB", "Express", "React", "Node.js", "JWT"],
-    demo: "#",
-    github: "#",
+    demo: "https://frontend-khaki-nu-22.vercel.app/",
+    github: "https://github.com/HemantMaru/second-brain",
     theme: "#050505", // Deepest Black
   },
   {
-    title: "Moodifier",
-    role: "Frontend Engineer",
+    title: "Vexora",
+    role: "Frontend Developer",
     description:
-      "A real-time intelligent application that interfaces with webcams to detect facial expressions and dynamically maps them to curated music selections.",
+      "A modern fashion e-commerce platform focused on premium UI/UX, responsive layouts, and immersive shopping experiences.",
     problem:
-      "Static playlists fail to adapt dynamically to a user's current emotional state.",
+      "Most fashion ecommerce websites feel outdated, cluttered, and lack engaging user experiences.",
     solution:
-      "Integrated real-time ML facial recognition pipelines with dynamic audio routing algorithms.",
-    image: "/images/moodifier.png",
-    tech: ["React", "Face API", "JavaScript", "Tailwind"],
-    demo: "#",
-    github: "#",
-    theme: "#0a0a0a", // Slightly lighter black
-  },
-  {
-    title: "QueryAI",
-    role: "Full-Stack Developer",
-    description:
-      "An advanced AI query interface inspired by Perplexity, designed for deep-dive information retrieval and contextual data synthesis.",
-    problem:
-      "Standard search outputs isolated links rather than synthesized, immediate answers.",
-    solution:
-      "Built a high-performance UI wrapping complex LLM API calls with real-time streaming responses.",
-    image: "/images/queryai.png",
-    tech: ["React", "Node.js", "Tailwind", "REST API"],
-    demo: "#",
-    github: "#",
-    theme: "#080808", // Industrial Black
+      "Designed and developed a visually rich frontend with smooth animations, responsive product showcases, and optimized user flows for modern online shopping.",
+    image: "/images/Vexora.png",
+    tech: ["React", "Tailwind", "JavaScript", "GSAP"],
+    demo: "https://vexora-in.vercel.app",
+    github: "https://github.com/HemantMaru/vexora",
+    theme: "#0a0a0a",
   },
 ];
 

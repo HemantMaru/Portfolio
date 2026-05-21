@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
+
 import {
   SiMongodb,
   SiExpress,
@@ -14,156 +15,117 @@ import {
   SiPostman,
 } from "react-icons/si";
 
-// --- TechIcon Component (Individual Skill Card) ---
-const TechIcon = ({ skill, index }) => {
+const skills = [
+  { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
+  { name: "Express", icon: SiExpress, color: "#ffffff" },
+  { name: "React", icon: SiReact, color: "#61DAFB" },
+  { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
+  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
+  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
+  { name: "GSAP", icon: SiGreensock, color: "#88CE02" },
+  { name: "Firebase", icon: SiFirebase, color: "#FFCA28" },
+  { name: "Git", icon: SiGit, color: "#F05032" },
+  { name: "Postman", icon: SiPostman, color: "#FF6C37" },
+];
+
+const SkillCard = ({ skill, index }) => {
   const cardRef = useRef(null);
-  const { icon: Icon, name, color, x, y } = skill;
 
   useEffect(() => {
-    // Floating Animation (GSAP)
+    if (!cardRef.current) return;
+
     gsap.to(cardRef.current, {
-      y: "random(-15, 15)",
-      x: "random(-15, 15)",
-      duration: `random(2, 4)`,
+      y: index % 2 === 0 ? -12 : 12,
+      duration: 2 + index * 0.2,
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut",
-      delay: index * 0.1,
     });
   }, [index]);
 
-  // Magnetic effect on Mouse Move
-  const handleMouseMove = (e) => {
-    const { clientX, clientY } = e;
-    const { left, top, width, height } =
-      cardRef.current.getBoundingClientRect();
-    const centerX = left + width / 2;
-    const centerY = top + height / 2;
-
-    // Calculate distance from center
-    const moveX = (clientX - centerX) * 0.3;
-    const moveY = (clientY - centerY) * 0.3;
-
-    gsap.to(cardRef.current, {
-      x: moveX,
-      y: moveY,
-      duration: 0.4,
-      ease: "power2.out",
-    });
-  };
-
-  const handleMouseLeave = () => {
-    gsap.to(cardRef.current, {
-      x: 0,
-      y: 0,
-      duration: 0.6,
-      ease: "elastic.out(1, 0.3)",
-    });
-  };
+  const Icon = skill.icon;
 
   return (
     <motion.div
       ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      initial={{ opacity: 0, scale: 0 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ delay: index * 0.05, type: "spring", stiffness: 100 }}
-      className="absolute p-4 md:p-6 rounded-2xl backdrop-blur-md border border-white/10 bg-white/5 group cursor-pointer"
+      initial={{ opacity: 0, y: 60 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.08,
+      }}
+      viewport={{ once: true }}
+      whileHover={{
+        scale: 1.08,
+      }}
+      className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:bg-white/10"
       style={{
-        left: `${x}%`,
-        top: `${y}%`,
-        boxShadow: `0 0 20px -10px ${color}`,
+        boxShadow: `0 0 25px -15px ${skill.color}`,
       }}
     >
-      <div className="flex flex-col items-center justify-center gap-3">
-        <Icon
-          size={35}
-          style={{ color }}
-          className="drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] group-hover:scale-125 transition-transform duration-300"
-        />
-        <span className="text-[10px] font-black tracking-widest uppercase text-white/40 group-hover:text-white transition-colors">
-          {name}
-        </span>
-      </div>
-
-      {/* Glow Effect on Hover */}
+      {/* Glow */}
       <div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity blur-xl -z-10"
-        style={{ backgroundColor: color }}
+        className="absolute inset-0 opacity-0 group-hover:opacity-20 blur-2xl transition duration-500"
+        style={{
+          backgroundColor: skill.color,
+        }}
       />
+
+      <Icon
+        size={50}
+        style={{
+          color: skill.color,
+        }}
+        className="relative z-10 transition-transform duration-300 group-hover:scale-125"
+      />
+
+      <h3 className="relative z-10 text-sm md:text-base font-semibold tracking-wide text-white/80 group-hover:text-white">
+        {skill.name}
+      </h3>
     </motion.div>
   );
 };
 
-// --- Main Skills Component ---
 const Skills = () => {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -100]);
-
-  const skills = [
-    { name: "MongoDB", icon: SiMongodb, color: "#47A248", x: 10, y: 20 },
-    { name: "Express", icon: SiExpress, color: "#ffffff", x: 70, y: 15 },
-    { name: "React", icon: SiReact, color: "#61DAFB", x: 40, y: 10 },
-    { name: "Node.js", icon: SiNodedotjs, color: "#339933", x: 80, y: 50 },
-    { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E", x: 15, y: 60 },
-    { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4", x: 50, y: 80 },
-    { name: "GSAP", icon: SiGreensock, color: "#88CE02", x: 5, y: 45 },
-    { name: "Firebase", icon: SiFirebase, color: "#FFCA28", x: 85, y: 75 },
-    { name: "Git", icon: SiGit, color: "#F05032", x: 30, y: 40 },
-    { name: "Postman", icon: SiPostman, color: "#FF6C37", x: 65, y: 55 },
-  ];
-
   return (
-    <section
-      ref={containerRef}
-      className="relative min-h-screen w-full bg-[#050505] overflow-hidden flex items-center justify-center py-20"
-    >
-      {/* Background Radial Gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent opacity-50" />
+    <section className="relative min-h-screen bg-black overflow-hidden py-24 px-6 md:px-16">
+      {/* Background Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-cyan-500/10 blur-[140px] rounded-full pointer-events-none" />
 
-      {/* Main Content */}
-      <motion.div
-        style={{ y: textY }}
-        className="relative z-20 text-center select-none pointer-events-none"
-      >
-        <h4 className="text-blue-500 font-mono tracking-[0.5em] mb-4 text-sm md:text-base uppercase">
+      {/* Heading */}
+      <div className="relative z-10 text-center mb-20">
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="uppercase tracking-[0.4em] text-cyan-400 text-sm mb-5"
+        >
           My Technical Arsenal
-        </h4>
-        <h2 className="text-6xl md:text-[10rem] font-black text-white leading-none tracking-tighter">
-          TECH <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white/50 to-white/5 italic">
+        </motion.p>
+
+        <motion.h2
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7 }}
+          className="text-5xl md:text-8xl font-black leading-none"
+        >
+          TECH
+          <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 italic">
             STACK
           </span>
-        </h2>
-      </motion.div>
+        </motion.h2>
+      </div>
 
-      {/* Skills Canvas */}
-      <div className="absolute inset-0 z-10 hidden md:block">
-        {skills.map((skill, i) => (
-          <TechIcon key={i} skill={skill} index={i} />
+      {/* Skills Grid */}
+      <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
+        {skills.map((skill, index) => (
+          <SkillCard key={skill.name} skill={skill} index={index} />
         ))}
       </div>
 
-      {/* Mobile View: Simple Grid (Better UX for Phones) */}
-      <div className="md:hidden grid grid-cols-3 gap-6 z-30 mt-10 px-6">
-        {skills.map((skill, i) => (
-          <div key={i} className="flex flex-col items-center gap-2">
-            <skill.icon size={30} style={{ color: skill.color }} />
-            <span className="text-[8px] text-white/50 uppercase font-bold">
-              {skill.name}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      {/* Ambient Decorative Light */}
-      <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 w-full h-1/2 bg-blue-600/20 blur-[120px] rounded-full" />
+      {/* Bottom Glow */}
+      <div className="absolute bottom-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[300px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
     </section>
   );
 };
