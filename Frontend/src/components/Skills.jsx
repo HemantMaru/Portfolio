@@ -1,5 +1,7 @@
 import React, { useEffect, useRef } from "react";
+
 import { gsap } from "gsap";
+
 import { motion } from "framer-motion";
 
 import {
@@ -13,19 +15,110 @@ import {
   SiGit,
   SiFirebase,
   SiPostman,
+  SiRedux,
+  SiNextdotjs,
+  SiTypescript,
+  SiFramer,
+  SiSocketdotio,
+  SiDocker,
 } from "react-icons/si";
 
 const skills = [
-  { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
-  { name: "Express", icon: SiExpress, color: "#ffffff" },
-  { name: "React", icon: SiReact, color: "#61DAFB" },
-  { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
-  { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
-  { name: "Tailwind", icon: SiTailwindcss, color: "#06B6D4" },
-  { name: "GSAP", icon: SiGreensock, color: "#88CE02" },
-  { name: "Firebase", icon: SiFirebase, color: "#FFCA28" },
-  { name: "Git", icon: SiGit, color: "#F05032" },
-  { name: "Postman", icon: SiPostman, color: "#FF6C37" },
+  {
+    name: "React",
+    icon: SiReact,
+    color: "#61DAFB",
+  },
+
+  {
+    name: "Node.js",
+    icon: SiNodedotjs,
+    color: "#539E43",
+  },
+
+  {
+    name: "MongoDB",
+    icon: SiMongodb,
+    color: "#4FAA41",
+  },
+
+  {
+    name: "Express",
+    icon: SiExpress,
+    color: "#EDEDED",
+  },
+
+  {
+    name: "JavaScript",
+    icon: SiJavascript,
+    color: "#F7DF1E",
+  },
+
+  {
+    name: "TypeScript",
+    icon: SiTypescript,
+    color: "#3178C6",
+  },
+
+  {
+    name: "Next.js",
+    icon: SiNextdotjs,
+    color: "#ffffff",
+  },
+
+  {
+    name: "Redux",
+    icon: SiRedux,
+    color: "#764ABC",
+  },
+
+  {
+    name: "Tailwind",
+    icon: SiTailwindcss,
+    color: "#38BDF8",
+  },
+
+  {
+    name: "GSAP",
+    icon: SiGreensock,
+    color: "#88CE02",
+  },
+
+  {
+    name: "Framer",
+    icon: SiFramer,
+    color: "#ffffff",
+  },
+
+  {
+    name: "Firebase",
+    icon: SiFirebase,
+    color: "#FFCA28",
+  },
+
+  {
+    name: "Socket.io",
+    icon: SiSocketdotio,
+    color: "#ffffff",
+  },
+
+  {
+    name: "Docker",
+    icon: SiDocker,
+    color: "#2496ED",
+  },
+
+  {
+    name: "Git",
+    icon: SiGit,
+    color: "#F1502F",
+  },
+
+  {
+    name: "Postman",
+    icon: SiPostman,
+    color: "#FF6C37",
+  },
 ];
 
 const SkillCard = ({ skill, index }) => {
@@ -34,13 +127,56 @@ const SkillCard = ({ skill, index }) => {
   useEffect(() => {
     if (!cardRef.current) return;
 
+    // Floating Animation
     gsap.to(cardRef.current, {
-      y: index % 2 === 0 ? -12 : 12,
-      duration: 2 + index * 0.2,
+      y: index % 2 === 0 ? -14 : 14,
+
+      duration: 2.5 + index * 0.08,
+
       repeat: -1,
+
       yoyo: true,
+
       ease: "sine.inOut",
     });
+
+    // Mouse Move Tilt
+    const card = cardRef.current;
+
+    const handleMove = (e) => {
+      const rect = card.getBoundingClientRect();
+
+      const x = e.clientX - rect.left - rect.width / 2;
+
+      const y = e.clientY - rect.top - rect.height / 2;
+
+      gsap.to(card, {
+        rotateY: x / 18,
+        rotateX: -y / 18,
+        transformPerspective: 1000,
+        duration: 0.4,
+        ease: "power3.out",
+      });
+    };
+
+    const reset = () => {
+      gsap.to(card, {
+        rotateY: 0,
+        rotateX: 0,
+        duration: 0.7,
+        ease: "power3.out",
+      });
+    };
+
+    card.addEventListener("mousemove", handleMove);
+
+    card.addEventListener("mouseleave", reset);
+
+    return () => {
+      card.removeEventListener("mousemove", handleMove);
+
+      card.removeEventListener("mouseleave", reset);
+    };
   }, [index]);
 
   const Icon = skill.icon;
@@ -48,84 +184,123 @@ const SkillCard = ({ skill, index }) => {
   return (
     <motion.div
       ref={cardRef}
-      initial={{ opacity: 0, y: 60 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={{
+        opacity: 0,
+        y: 80,
+      }}
+      whileInView={{
+        opacity: 1,
+        y: 0,
+      }}
       transition={{
-        duration: 0.6,
-        delay: index * 0.08,
+        duration: 0.8,
+        delay: index * 0.04,
       }}
-      viewport={{ once: true }}
-      whileHover={{
-        scale: 1.08,
+      viewport={{
+        once: true,
       }}
-      className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl p-6 flex flex-col items-center justify-center gap-4 transition-all duration-300 hover:bg-white/10"
-      style={{
-        boxShadow: `0 0 25px -15px ${skill.color}`,
-      }}
+      className="group relative overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.03] backdrop-blur-2xl p-7 md:p-8 flex flex-col items-center justify-center gap-5 transition duration-500 hover:bg-white/[0.05] will-change-transform"
     >
-      {/* Glow */}
+      {/* Ambient Glow */}
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-20 blur-2xl transition duration-500"
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700 blur-3xl"
         style={{
-          backgroundColor: skill.color,
+          background: `${skill.color}15`,
         }}
       />
 
-      <Icon
-        size={50}
-        style={{
-          color: skill.color,
-        }}
-        className="relative z-10 transition-transform duration-300 group-hover:scale-125"
-      />
+      {/* Inner Border */}
+      <div className="absolute inset-[1px] rounded-[2rem] border border-white/[0.04] pointer-events-none" />
 
-      <h3 className="relative z-10 text-sm md:text-base font-semibold tracking-wide text-white/80 group-hover:text-white">
+      {/* Icon */}
+      <div className="relative z-10">
+        <Icon
+          size={48}
+          style={{
+            color: skill.color,
+          }}
+          className="transition duration-500 group-hover:scale-125 group-hover:-translate-y-1"
+        />
+      </div>
+
+      {/* Name */}
+      <h3 className="relative z-10 text-sm md:text-[15px] font-semibold tracking-wide text-white/75 group-hover:text-white transition duration-300">
         {skill.name}
       </h3>
+
+      {/* Hover Shine */}
+      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700 bg-[linear-gradient(120deg,transparent,rgba(255,255,255,0.08),transparent)] translate-x-[-100%] group-hover:translate-x-[100%]" />
     </motion.div>
   );
 };
 
 const Skills = () => {
   return (
-    <section className="relative min-h-screen bg-black overflow-hidden py-24 px-6 md:px-16">
-      {/* Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[700px] bg-cyan-500/10 blur-[140px] rounded-full pointer-events-none" />
+    <section
+      id="skills"
+      className="relative overflow-hidden bg-[#050505] text-white py-32 md:py-40 px-6 sm:px-12 md:px-20 lg:px-28"
+    >
+      {/* Ambient Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* Glow */}
+        <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-white/[0.02] blur-[180px] rounded-full" />
 
-      {/* Heading */}
-      <div className="relative z-10 text-center mb-20">
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="uppercase tracking-[0.4em] text-cyan-400 text-sm mb-5"
-        >
-          My Technical Arsenal
-        </motion.p>
+        {/* Extra */}
+        <div className="absolute bottom-[-20%] right-[-10%] w-[700px] h-[700px] bg-white/[0.015] blur-[180px] rounded-full" />
 
-        <motion.h2
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7 }}
-          className="text-5xl md:text-8xl font-black leading-none"
-        >
-          TECH
-          <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/20 italic">
-            STACK
-          </span>
-        </motion.h2>
+        {/* Grid */}
+        <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:90px_90px]" />
       </div>
 
-      {/* Skills Grid */}
-      <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
-        {skills.map((skill, index) => (
-          <SkillCard key={skill.name} skill={skill} index={index} />
-        ))}
-      </div>
+      {/* Main */}
+      <div className="relative z-10 max-w-[1700px] mx-auto">
+        {/* Top */}
+        <div className="flex flex-col xl:flex-row items-start xl:items-end justify-between gap-14 mb-24">
+          {/* Left */}
+          <div>
+            <div className="flex items-center gap-5 mb-10">
+              <span className="w-14 h-[1px] bg-white/15" />
 
-      {/* Bottom Glow */}
-      <div className="absolute bottom-[-200px] left-1/2 -translate-x-1/2 w-[900px] h-[300px] bg-blue-500/10 blur-[120px] rounded-full pointer-events-none" />
+              <p className="uppercase tracking-[0.45em] text-[10px] text-white/35 font-semibold">
+                Technical Expertise
+              </p>
+            </div>
+
+            <h2 className="text-[16vw] sm:text-[12vw] md:text-[8rem] xl:text-[10rem] leading-[0.82] tracking-[-0.08em] uppercase font-black">
+              TECH
+              <br />
+              <span className="italic text-white/20">STACK</span>
+            </h2>
+          </div>
+
+          {/* Right */}
+          <div className="max-w-xl">
+            <p className="text-lg md:text-xl leading-relaxed text-white/45">
+              Building modern digital products using scalable frontend systems,
+              backend architecture, animation frameworks, realtime technologies,
+              and production-focused engineering workflows.
+            </p>
+          </div>
+        </div>
+
+        {/* Skills Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 md:gap-8">
+          {skills.map((skill, index) => (
+            <SkillCard key={skill.name} skill={skill} index={index} />
+          ))}
+        </div>
+
+        {/* Bottom Strip */}
+        <div className="mt-28 border-t border-white/5 pt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <p className="uppercase tracking-[0.35em] text-[10px] text-white/25">
+            Full Stack Engineering • UI Systems • Performance Architecture
+          </p>
+
+          <p className="text-white/30 text-sm">
+            React • MERN • GSAP • Modern UI/UX
+          </p>
+        </div>
+      </div>
     </section>
   );
 };

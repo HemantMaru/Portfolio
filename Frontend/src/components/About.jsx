@@ -9,19 +9,19 @@ const About = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Simple Slide Up - No heavy calculations
       gsap.from(".reveal", {
-        y: 30,
+        y: 40,
         opacity: 0,
-        duration: 0.8,
-        stagger: 0.15,
-        ease: "power2.out",
+        duration: 1,
+        stagger: 0.12,
+        ease: "power3.out",
         scrollTrigger: {
           trigger: sectionRef.current,
           start: "top 75%",
         },
       });
     }, sectionRef);
+
     return () => ctx.revert();
   }, []);
 
@@ -29,66 +29,76 @@ const About = () => {
     <section
       id="about"
       ref={sectionRef}
-      className="py-24 md:py-40 px-6 sm:px-12 md:px-24 bg-[#0a0a0a] text-white"
+      className="relative overflow-hidden bg-black text-white py-24 md:py-40 px-6 sm:px-12 md:px-24"
     >
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-12 lg:gap-24 items-start">
-          {/* Left Column - Big Text */}
+      {/* Soft Background Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-white/[0.02] blur-[120px] rounded-full pointer-events-none" />
+
+      <div className="relative z-10 max-w-7xl mx-auto">
+        <div className="flex flex-col lg:grid lg:grid-cols-12 gap-16 lg:gap-24 items-start">
+          {/* Left Side */}
           <div className="lg:col-span-7">
-            <span className="reveal text-xs font-bold tracking-[0.5em] text-white/30 uppercase block mb-8">
-              Foundations & Philosophy
+            <span className="reveal text-xs tracking-[0.5em] uppercase text-white/30 block mb-8 font-semibold">
+              About Me
             </span>
-            <h2 className="reveal text-5xl sm:text-7xl md:text-[6rem] font-black leading-[0.9] uppercase tracking-tighter italic">
-              I build things <br />
-              <span className="text-white/20 not-italic font-light">
-                for a web people
-              </span>{" "}
+
+            <h2 className="reveal text-5xl sm:text-7xl md:text-[6rem] font-black leading-[0.9] tracking-tight uppercase">
+              I build
               <br />
-              actually trust.
+              <span className="italic text-white/20">modern</span> digital
+              <br />
+              products.
             </h2>
           </div>
 
-          {/* Right Column - Content */}
-          <div className="lg:col-span-5 lg:pt-20 space-y-10">
-            <p className="reveal text-xl sm:text-2xl text-white/80 font-medium leading-tight">
-              I'm Hemant Maru, a MERN developer focused on architecting
-              production-grade solutions that don't just work — they endure.
+          {/* Right Side */}
+          <div className="lg:col-span-5 lg:pt-16">
+            {/* Intro */}
+            <p className="reveal text-lg sm:text-xl text-white/80 leading-relaxed">
+              I'm Hemant Maru, a MERN Stack Developer focused on creating
+              modern, scalable, and visually refined web experiences using
+              React, Node.js, MongoDB, and contemporary frontend technologies.
             </p>
 
-            <div className="reveal space-y-6 text-white/40 leading-relaxed text-lg border-l border-white/10 pl-6">
+            {/* Paragraphs */}
+            <div className="reveal mt-10 border-l border-white/10 pl-6 space-y-6 text-white/50 leading-relaxed">
               <p>
-                In an era of mass-produced templates, I specialize in bespoke
-                engineering. My approach blends industrial-strength backend
-                stability with pixel-level frontend precision.
+                I enjoy building responsive interfaces, interactive animations,
+                and full-stack applications that balance clean aesthetics with
+                strong engineering principles.
               </p>
+
               <p>
-                Whether it's deploying a luxury e-commerce platform or
-                optimizing critical logistics systems, my goal is Technical
-                excellence.
+                From ecommerce platforms to AI-powered products, my focus is
+                always on performance, usability, and modern digital experiences
+                that feel polished and reliable.
               </p>
             </div>
 
-            {/* Simple Stats Row */}
-            <div className="reveal grid grid-cols-3 gap-8 pt-10 border-t border-white/5">
+            {/* Stats */}
+            <div className="reveal grid grid-cols-3 gap-8 pt-12 mt-12 border-t border-white/10">
               <div>
-                <div className="text-3xl font-black text-white italic">3+</div>
-                <div className="text-[10px] font-bold tracking-widest text-white/20 uppercase mt-1">
-                  Years
-                </div>
-              </div>
-              <div>
-                <div className="text-3xl font-black text-white italic">20+</div>
-                <div className="text-[10px] font-bold tracking-widest text-white/20 uppercase mt-1">
+                <h3 className="text-4xl font-black italic">20+</h3>
+
+                <p className="mt-2 text-[10px] uppercase tracking-[0.3em] text-white/30">
                   Projects
-                </div>
+                </p>
               </div>
+
               <div>
-                <div className="text-3xl font-black text-white italic">
-                  100%
-                </div>
-                <div className="text-[10px] font-bold tracking-widest text-white/20 uppercase mt-1">
-                  Uptime
-                </div>
+                <h3 className="text-4xl font-black italic">MERN</h3>
+
+                <p className="mt-2 text-[10px] uppercase tracking-[0.3em] text-white/30">
+                  Stack
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-4xl font-black italic">AI</h3>
+
+                <p className="mt-2 text-[10px] uppercase tracking-[0.3em] text-white/30">
+                  Products
+                </p>
               </div>
             </div>
           </div>

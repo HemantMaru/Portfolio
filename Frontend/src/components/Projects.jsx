@@ -1,6 +1,9 @@
 import React, { useEffect, useRef } from "react";
+
 import { gsap } from "gsap";
+
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+
 import { FaGithub, FaArrowRight } from "react-icons/fa";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -8,134 +11,197 @@ gsap.registerPlugin(ScrollTrigger);
 const projects = [
   {
     title: "NeuroVault",
-    role: "Full-Stack Architect",
+    role: "Full Stack Architecture",
     description:
-      "A 'Second Brain' ecosystem designed to organize digital content, seamlessly integrating YouTube videos and PDFs into a centralized, searchable vault.",
+      "An intelligent digital vault designed to centralize YouTube videos, PDFs, notes, and web resources into a seamless second-brain ecosystem.",
     problem:
-      "Information fragmentation across platforms leads to lost context and reduced productivity.",
+      "Modern workflows suffer from fragmented information scattered across platforms and tools.",
     solution:
-      "Engineered a bespoke MERN architecture with robust JWT/cookie authentication for secure content retention.",
+      "Built a scalable MERN ecosystem with secure JWT authentication, content organization systems, and modern responsive UI architecture.",
     image: "/images/Neurovault.png",
     tech: ["MongoDB", "Express", "React", "Node.js", "JWT"],
     demo: "https://frontend-khaki-nu-22.vercel.app/",
     github: "https://github.com/HemantMaru/second-brain",
-    theme: "#050505", // Deepest Black
   },
+
   {
     title: "Vexora",
-    role: "Frontend Developer",
+    role: "Frontend Engineering",
     description:
-      "A modern fashion e-commerce platform focused on premium UI/UX, responsive layouts, and immersive shopping experiences.",
+      "A premium fashion ecommerce experience focused on cinematic layouts, smooth interactions, and luxury-inspired product presentation.",
     problem:
-      "Most fashion ecommerce websites feel outdated, cluttered, and lack engaging user experiences.",
+      "Traditional ecommerce interfaces often feel generic, cluttered, and visually outdated.",
     solution:
-      "Designed and developed a visually rich frontend with smooth animations, responsive product showcases, and optimized user flows for modern online shopping.",
+      "Created a modern frontend experience with immersive layouts, responsive architecture, and smooth GSAP-powered interactions.",
     image: "/images/Vexora.png",
-    tech: ["React", "Tailwind", "JavaScript", "GSAP"],
+    tech: ["React", "Tailwind", "GSAP", "JavaScript"],
     demo: "https://vexora-in.vercel.app",
     github: "https://github.com/HemantMaru/vexora",
-    theme: "#0a0a0a",
+  },
+
+  {
+    title: "AI Interview Platform",
+    role: "MERN + AI Systems",
+    description:
+      "A real-time AI powered interview platform designed for technical assessments, practice sessions, and intelligent interview workflows.",
+    problem:
+      "Traditional interview preparation lacks realistic interaction and intelligent feedback systems.",
+    solution:
+      "Developed scalable interview workflows with AI integrations, authentication systems, and modern dashboard experiences.",
+    image: "/images/interview.png",
+    tech: ["React", "Node.js", "MongoDB", "AI APIs"],
+    demo: "#",
+    github: "#",
   },
 ];
 
-const ProjectCard = ({ project, index, total }) => {
-  const innerRef = useRef(null);
+const ProjectCard = ({ project, index }) => {
+  const cardRef = useRef(null);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Simple text reveal when card becomes visible
-      gsap.from(".reveal-text", {
-        y: 40,
+      gsap.from(".project-reveal", {
+        y: 100,
         opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power3.out",
+        duration: 1.2,
+        stagger: 0.12,
+        ease: "power4.out",
         scrollTrigger: {
-          trigger: innerRef.current,
-          start: "top 70%",
+          trigger: cardRef.current,
+          start: "top 75%",
         },
       });
-    }, innerRef);
+
+      // Image Scale
+      gsap.to(".project-image", {
+        scale: 1.08,
+        ease: "none",
+        scrollTrigger: {
+          trigger: cardRef.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+    }, cardRef);
+
     return () => ctx.revert();
   }, []);
 
   return (
     <section
-      className="sticky top-0 min-h-screen w-full flex items-center justify-center border-t border-white/5 overflow-hidden"
-      style={{ backgroundColor: project.theme }}
+      ref={cardRef}
+      className="relative min-h-screen flex items-center border-t border-white/5 overflow-hidden bg-[#050505]"
     >
-      <div
-        ref={innerRef}
-        className="max-w-[1400px] mx-auto w-full px-6 sm:px-12 md:px-24 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center"
-      >
-        {/* Left: Content */}
-        <div className="lg:col-span-5 flex flex-col gap-8 order-2 lg:order-1 mt-10 lg:mt-0">
-          <div className="space-y-4">
-            <span className="reveal-text inline-block text-[10px] font-bold tracking-[0.4em] text-white/30 uppercase">
-              0{index + 1} / 0{total} — {project.role}
-            </span>
-            <h3 className="reveal-text text-5xl sm:text-6xl md:text-7xl font-black uppercase tracking-tighter leading-[0.85]">
-              {project.title}
-            </h3>
+      {/* Ambient Glow */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-20%] right-[-10%] w-[700px] h-[700px] bg-white/[0.02] blur-[180px] rounded-full" />
+      </div>
+
+      <div className="relative z-10 max-w-[1700px] mx-auto w-full px-6 sm:px-12 md:px-20 lg:px-28 grid lg:grid-cols-12 gap-16 items-center">
+        {/* LEFT */}
+        <div className="lg:col-span-5 flex flex-col gap-8">
+          {/* Index */}
+          <div className="project-reveal flex items-center gap-5">
+            <span className="w-14 h-[1px] bg-white/15" />
+
+            <p className="uppercase tracking-[0.45em] text-[10px] text-white/35 font-semibold">
+              0{index + 1}
+            </p>
           </div>
 
-          <p className="reveal-text text-lg text-white/60 font-medium leading-relaxed">
+          {/* Heading */}
+          <div>
+            <span className="project-reveal uppercase tracking-[0.35em] text-[10px] text-white/30">
+              {project.role}
+            </span>
+
+            <h2 className="project-reveal mt-5 text-[15vw] sm:text-[10vw] md:text-[6rem] xl:text-[7rem] leading-[0.85] tracking-[-0.08em] uppercase font-black">
+              {project.title}
+            </h2>
+          </div>
+
+          {/* Description */}
+          <p className="project-reveal text-lg md:text-xl leading-relaxed text-white/45 max-w-2xl">
             {project.description}
           </p>
 
-          <div className="reveal-text space-y-4 border-l border-white/10 pl-6 hidden sm:block">
-            <p className="text-sm text-white/40">
-              <strong className="text-white">Challenge:</strong>{" "}
+          {/* Challenge */}
+          <div className="project-reveal border-l border-white/10 pl-6 space-y-5">
+            <p className="text-white/35 leading-relaxed">
+              <span className="text-white font-semibold">Challenge:</span>{" "}
               {project.problem}
             </p>
-            <p className="text-sm text-white/40">
-              <strong className="text-white">Execution:</strong>{" "}
+
+            <p className="text-white/35 leading-relaxed">
+              <span className="text-white font-semibold">Solution:</span>{" "}
               {project.solution}
             </p>
           </div>
 
-          <div className="reveal-text flex flex-wrap gap-2 pt-4">
-            {project.tech.map((t) => (
+          {/* Tech */}
+          <div className="project-reveal flex flex-wrap gap-3 pt-2">
+            {project.tech.map((tech) => (
               <span
-                key={t}
-                className="text-[10px] font-bold px-4 py-2 rounded-none bg-white/[0.03] border border-white/10 uppercase text-white/50 hover:bg-white/10 hover:text-white transition-colors cursor-default"
+                key={tech}
+                className="px-5 py-3 border border-white/10 bg-white/[0.03] rounded-2xl uppercase tracking-[0.2em] text-[10px] text-white/50"
               >
-                {t}
+                {tech}
               </span>
             ))}
           </div>
 
-          <div className="reveal-text flex items-center gap-8 mt-6">
+          {/* Buttons */}
+          <div className="project-reveal flex flex-wrap items-center gap-5 pt-6">
             <a
               href={project.demo}
-              className="group flex items-center gap-3 text-sm font-bold uppercase tracking-widest text-white border-b border-white/20 pb-1 hover:border-white transition-all"
+              target="_blank"
+              rel="noreferrer"
+              className="group flex items-center gap-4 bg-white text-black px-8 py-4 rounded-2xl uppercase tracking-[0.25em] text-[10px] font-bold hover:scale-[1.03] transition duration-300"
             >
-              View Live{" "}
-              <FaArrowRight className="group-hover:translate-x-2 transition-transform" />
+              Live Preview
+              <FaArrowRight className="group-hover:translate-x-1 transition" />
             </a>
+
             <a
               href={project.github}
-              className="text-xl text-white/30 hover:text-white transition-colors"
+              target="_blank"
+              rel="noreferrer"
+              className="group w-14 h-14 rounded-2xl border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] flex items-center justify-center transition duration-300"
             >
-              <FaGithub />
+              <FaGithub className="text-white/50 group-hover:text-white transition" />
             </a>
           </div>
         </div>
 
-        {/* Right: Visual */}
-        <div className="lg:col-span-7 order-1 lg:order-2 reveal-text">
-          <div className="relative group w-full aspect-[4/3] md:aspect-[16/10] bg-[#111] overflow-hidden">
+        {/* RIGHT */}
+        <div className="lg:col-span-7">
+          <div className="project-reveal relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.03] aspect-[16/10]">
+            {/* Image */}
             <img
               src={project.image}
               alt={project.title}
-              className="w-full h-full object-cover opacity-50 grayscale group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-out"
-              onError={(e) =>
-                (e.target.src =
-                  "https://via.placeholder.com/1200x800/111/333?text=Project+Visual")
-              }
+              className="project-image absolute inset-0 w-full h-full object-cover opacity-70 hover:opacity-100 transition duration-700"
             />
-            {/* Minimal overlay lines */}
-            <div className="absolute inset-0 border border-white/10 pointer-events-none mix-blend-overlay"></div>
+
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-black via-black/20 to-transparent" />
+
+            {/* Floating Card */}
+            <div className="absolute bottom-8 left-8 border border-white/10 bg-black/40 backdrop-blur-2xl rounded-3xl px-8 py-6 max-w-sm">
+              <p className="uppercase tracking-[0.35em] text-[9px] text-white/30 mb-4">
+                Project Overview
+              </p>
+
+              <h3 className="text-2xl font-semibold text-white mb-3">
+                Modern Product Engineering
+              </h3>
+
+              <p className="text-sm leading-relaxed text-white/40">
+                Built with scalable frontend systems, clean UI architecture,
+                responsive layouts, and modern interaction design.
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -145,60 +211,80 @@ const ProjectCard = ({ project, index, total }) => {
 
 const Projects = () => {
   return (
-    <div id="projects" className="relative bg-[#050505] text-white">
-      {/* Intro Section */}
-      <section className="h-[60vh] w-full flex flex-col justify-center px-6 md:px-24">
-        <div className="max-w-7xl mx-auto w-full">
-          <span className="text-[10px] font-bold tracking-[0.5em] text-white/30 uppercase block mb-6">
-            Selected Archives
-          </span>
-          <h2 className="text-6xl md:text-[9rem] font-black tracking-tighter uppercase leading-[0.8]">
-            THE <br /> <span className="text-white/20 italic">WORK</span>.
-          </h2>
+    <div
+      id="projects"
+      className="relative overflow-hidden bg-[#050505] text-white"
+    >
+      {/* Intro */}
+      <section className="relative min-h-[70vh] flex items-center px-6 sm:px-12 md:px-20 lg:px-28 border-t border-white/5">
+        <div className="max-w-[1700px] mx-auto w-full">
+          {/* Label */}
+          <div className="flex items-center gap-5 mb-10">
+            <span className="w-14 h-[1px] bg-white/15" />
+
+            <p className="uppercase tracking-[0.45em] text-[10px] text-white/35 font-semibold">
+              Selected Projects
+            </p>
+          </div>
+
+          {/* Heading */}
+          <h1 className="text-[16vw] sm:text-[12vw] md:text-[9rem] xl:text-[11rem] leading-[0.82] tracking-[-0.08em] uppercase font-black">
+            FEATURED
+            <br />
+            <span className="italic text-white/20">WORK</span>
+          </h1>
         </div>
       </section>
 
-      {/* Projects Stack (Natively Sticky) */}
-      <div className="relative w-full z-10">
+      {/* Projects */}
+      <div className="relative">
         {projects.map((project, index) => (
-          <ProjectCard
-            key={project.title}
-            project={project}
-            index={index}
-            total={projects.length}
-          />
+          <ProjectCard key={project.title} project={project} index={index} />
         ))}
       </div>
 
-      {/* Outro Section */}
-      <section className="min-h-[80vh] w-full flex flex-col items-center justify-center text-center px-6 bg-[#030303] relative z-20">
-        <div className="max-w-4xl space-y-12">
-          <h4 className="text-5xl md:text-[6rem] font-black uppercase tracking-tighter leading-[0.85]">
-            Ready to <br />
-            <span className="text-transparent stroke-text italic">Build?</span>
-          </h4>
-          <div className="flex flex-col sm:flex-row justify-center gap-6">
+      {/* Outro */}
+      <section className="relative min-h-[80vh] flex items-center justify-center text-center px-6 overflow-hidden border-t border-white/5">
+        {/* Ambient */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/[0.02] blur-[180px] rounded-full pointer-events-none" />
+
+        <div className="relative z-10 max-w-5xl">
+          <p className="uppercase tracking-[0.45em] text-[10px] text-white/35 font-semibold mb-8">
+            Let’s Create Something Exceptional
+          </p>
+
+          <h2 className="text-[14vw] sm:text-[9vw] md:text-[7rem] xl:text-[8rem] leading-[0.85] tracking-[-0.08em] uppercase font-black">
+            READY
+            <br />
+            <span className="italic text-white/20">TO BUILD?</span>
+          </h2>
+
+          <p className="mt-10 text-lg md:text-xl leading-relaxed text-white/45 max-w-3xl mx-auto">
+            Building modern digital experiences with scalable engineering,
+            cinematic UI systems, and performance-focused architecture.
+          </p>
+
+          {/* Buttons */}
+          <div className="mt-14 flex flex-wrap justify-center items-center gap-5">
             <a
-              href="mailto:hello@example.com"
-              className="px-10 py-5 bg-white text-black font-black uppercase tracking-widest text-sm hover:bg-[#ddd] transition-colors"
+              href="#contact"
+              className="group flex items-center gap-4 bg-white text-black px-10 py-5 rounded-2xl uppercase tracking-[0.25em] text-[10px] font-bold hover:scale-[1.03] transition duration-300"
             >
-              Initialize Contact
+              Start Project
+              <FaArrowRight className="group-hover:translate-x-1 transition" />
             </a>
+
             <a
-              href="https://github.com"
-              className="px-10 py-5 bg-transparent border border-white/20 text-white font-bold uppercase tracking-widest text-sm hover:bg-white/5 flex items-center justify-center gap-3 transition-colors"
+              href="https://github.com/HemantMaru"
+              target="_blank"
+              rel="noreferrer"
+              className="px-10 py-5 border border-white/10 bg-white/[0.03] hover:bg-white/[0.06] rounded-2xl uppercase tracking-[0.25em] text-[10px] text-white/70 transition duration-300"
             >
-              GitHub <FaGithub />
+              GitHub
             </a>
           </div>
         </div>
       </section>
-
-      <style jsx>{`
-        .stroke-text {
-          -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-        }
-      `}</style>
     </div>
   );
 };
